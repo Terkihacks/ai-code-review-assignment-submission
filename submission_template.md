@@ -2,7 +2,7 @@
 
 ## Candidate
 - Name: Raymond Munguti
-- Approximate time spent: 
+- Approximate time spent: 70mins
 
 ---
 
