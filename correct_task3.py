@@ -11,9 +11,6 @@ def average_valid_measurements(values):
     Raises:
         ValueError: If values is not a list
         
-    Note:
-        Values that cannot be converted to float are skipped silently.
-        This may hide data quality issues - consider logging in production.
     """
     if not isinstance(values, list):
         raise ValueError("values must be a list")
