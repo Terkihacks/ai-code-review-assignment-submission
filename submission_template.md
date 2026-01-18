@@ -86,19 +86,27 @@ If you were to test this function, what areas or scenarios would you focus on, a
 
 # Task 2 — Count Valid Emails
 
-##` 1) Code Review Findings
+## 1) Code Review Findings
 ### Critical bugs
-- 
+- Extremely naive validation: only checks for "@" presence which leads to false positives, violating standard email validation rules
 
 ### Edge cases & risks
-- 
+- Non-string items in list will cause TypeError (e.g., None, integers)
+- Empty string with "@" somewhere would be counted as valid
+- Multiple "@" symbols would pass (invalid email format)
+- Special cases like "user@@domain.com" would be counted
 
 ### Code quality / design issues
-- 
+- Lacks proper validation logic
+- No input type checking (assumes iterable of strings), inefficient linear scan without early exits, and misses best practices like regex or library use.
+​
 
 ## 2) Proposed Fixes / Improvements
 ### Summary of changes
-- 
+- Add proper email validation using regex pattern
+- Add type checking for non-string items
+- Validate basic email structure: local@domain with proper format
+- Handle None and non-string types gracefully
 
 ### Corrected code
 See `correct_task2.py`
@@ -108,21 +116,30 @@ See `correct_task2.py`
 
 ### Testing Considerations
 If you were to test this function, what areas or scenarios would you focus on, and why?
+- Valid emails: Standard formats like "user@example.com"
+- Edge cases: "user@@domain.com", "", multiple "@" symbols
+- Type errors: List containing None, integers, or other non-strings
+- Special characters: Emails with dots, hyphens, underscores
+- Case sensitivity: Mixed case emails
 
 ## 3) Explanation Review & Rewrite
 ### AI-generated explanation (original)
 > This function counts the number of valid email addresses in the input list. It safely ignores invalid entries and handles empty input correctly.
 
 ### Issues in original explanation
-- 
+- Claims it "safely ignores invalid entries" but will crash on non-string types
+- Misleading about what "valid" means (just checking for "@" is not validation)
+- Overstates correctness and safety
+- Doesn't mention the extremely weak validation criteria
 
 ### Rewritten explanation
-- 
+- This function counts email addresses that match a basic format pattern: a local part, "@" symbol, domain name, and top-level domain. It skips non-string items in the input list. Note that this performs basic format validation only and does not verify that email addresses actually exist or are deliverable.
 
 ## 4) Final Judgment
-- Decision: Approve / Request Changes / Reject
-- Justification:
-- Confidence & unknowns:
+- Decision: Reject
+- Justification: The validation is so weak it's essentially useless (just checks for "@"), and crashes on non-string input. The function name and explanation create false
+- Confidence & unknowns: High confidence.
+Unknown: what level of email validation is actually needed? (basic format check vs. RFC-compliant vs. deliverability check).
 
 ---
 
